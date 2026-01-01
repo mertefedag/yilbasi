@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MERT EFE DAĞ ❤️ SSS</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Poppins&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(180deg, #0a0f1a, #000);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+    }
+
+    #snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #love-title {
+      z-index: 2;
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.5rem, 6vw, 3rem);
+      color: #00fff2;
+      text-shadow:
+        0 0 5px #00fff2,
+        0 0 10px #00fff2,
+        0 0 20px #00fff2,
+        0 0 40px #0ff;
+      animation: glowPulse 3s ease-in-out infinite, shake 6s infinite;
+      letter-spacing: 0.15em;
+      padding: 10px 10px 5px;
+      margin-bottom: 10px;
+    }
+
+    #counter {
+      z-index: 1;
+      padding: 15px 30px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow:
+        0 0 20px rgba(0,255,255,0.15),
+        inset 0 0 10px rgba(255,255,255,0.02);
+      color: #00fff2;
+      font-size: clamp(1.2rem, 5vw, 2.5rem);
+      letter-spacing: 0.15em;
+      text-shadow:
+        0 0 4px #00fff2,
+        0 0 10px #00fff2;
+    }
+
+    #quote {
+      z-index: 1;
+      margin-top: 20px;
+      max-width: 95%;
+      font-size: clamp(0.9rem, 4vw, 1.2rem);
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.5;
+      padding: 0 10px;
+      animation: fadeIn 3s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% {
+        text-shadow:
+          0 0 5px #00fff2,
+          0 0 10px #00fff2,
+          0 0 20px #00fff2,
+          0 0 40px #0ff;
+      }
+      50% {
+        text-shadow:
+          0 0 10px #00e6e6,
+          0 0 20px #00e6e6,
+          0 0 30px #00cccc,
+          0 0 50px #0ff;
+      }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-2px); }
+      50% { transform: translateX(2px); }
+      75% { transform: translateX(-1px); }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="snow"></canvas>
+
+<div id="love-title">MERT EFE DAĞ ❤️ SSS</div>
+<div id="counter"></div>
+
+<div id="quote">
+  “Yeni yıl hepimize sağlık, güç ve hedeflerimize bir adım daha yaklaşacağımız güzel anlar getirsin.<br>
+  Birlikte güldüğümüz, birlikte başardığımız bir yıl olsun...<br>
+  Hepinize mutlu yıllar.”
+</div>
+
+<script>
+  /* 🔥 SADECE BU KISIM DEĞİŞTİ (GERİ SAYIM) 🔥 */
+  const targetDate = new Date("2026-01-01T00:00:00");
+
+  function updateCounter() {
+    const now = new Date();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+      document.getElementById("counter").textContent = "🎉 MUTLU YILLAR! 🎉";
+      return;
+    }
+
+    const totalSeconds = Math.floor(diff / 1000);
+    const days = Math.floor(totalSeconds / (3600 * 24));
+    const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    document.getElementById("counter").textContent =
+      `${days}g ${String(hours).padStart(2, '0')}s ` +
+      `${String(minutes).padStart(2, '0')}d ${String(seconds).padStart(2, '0')}s`;
+  }
+
+  updateCounter();
+  setInterval(updateCounter, 1000);
+  /* 🔥 SADECE BU KISIM DEĞİŞTİ 🔥 */
+
+  const canvas = document.getElementById('snow');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let snowflakes = [];
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  function createSnowflakes() {
+    const count = 150;
+    snowflakes = [];
+    for (let i = 0; i < count; i++) {
+      snowflakes.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 2 + 1,
+        d: Math.random() + 0.5
+      });
+    }
+  }
+
+  function drawSnowflakes() {
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.beginPath();
+    for (let i = 0; i < snowflakes.length; i++) {
+      const f = snowflakes[i];
+      ctx.moveTo(f.x, f.y);
+      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+    }
+    ctx.fill();
+    moveSnowflakes();
+  }
+
+  let angle = 0;
+  function moveSnowflakes() {
+    angle += 0.001;
+    for (let i = 0; i < snowflakes.length; i++) {
+      const f = snowflakes[i];
+      f.y += Math.pow(f.d, 2) + 0.5;
+      f.x += Math.sin(angle) * 0.5;
+
+      if (f.y > height) {
+        f.y = 0;
+        f.x = Math.random() * width;
+      }
+    }
+  }
+
+  function animateSnow() {
+    drawSnowflakes();
+    requestAnimationFrame(animateSnow);
+  }
+
+  createSnowflakes();
+  animateSnow();
+</script>
+
+</body>
+</html>
